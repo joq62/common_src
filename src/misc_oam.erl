@@ -22,10 +22,10 @@
 %% External functions
 %% ====================================================================
 print(Text)->
-    rpc:cast(?Terminal,terminal,print,[Text]).
+    rpc:call(?Terminal,terminal,print,[Text]).
 
 print(Text,List)->
-    rpc:cast(?Terminal,terminal,print,[Text,List]).
+    rpc:call(?Terminal,terminal,print,[Text,List]).
 %% --------------------------------------------------------------------
 %% Function:start/0 
 %% Description: Initiate the eunit tests, set upp needed processes etc
