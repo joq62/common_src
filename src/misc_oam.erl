@@ -9,8 +9,10 @@
 %% --------------------------------------------------------------------
 %% Include files
 %% --------------------------------------------------------------------
+-define(TerminalVmId,"terminal").
 -define(Terminal,'terminal@c2').
 -define(Terminals,['terminal@c2','terminal@c1','terminal@c0']).
+-define(Masters,[['master@c2','master@c1','master@c0']).
 %%---------------------------------------------------------------------
 %% Records for test
 %%
@@ -41,5 +43,13 @@ node(Name)->
 %% Description: Initiate the eunit tests, set upp needed processes etc
 %% Returns: non
 %% --------------------------------------------------------------------
+get_log_terminals()->
+    VmStrList=[{string:lexemes([atom_to_list(Node)],"@"),Node}||Node<-[node()|nodes()]],
+    [Node||{[?TerminalVmId,_],Node}<-VmStrList].
+   % VmStrList.    
+					       
+
 log_terminals()->
     ?Terminals.
+masters()->
+    ?Masters.
