@@ -12,7 +12,7 @@
 -define(TerminalVmId,"terminal").
 -define(Terminal,'terminal@c2').
 -define(Terminals,['terminal@c2','terminal@c1','terminal@c0']).
--define(Masters,[['master@c2','master@c1','master@c0']).
+-define(Masters,['master@c2','master@c1','master@c0']).
 %%---------------------------------------------------------------------
 %% Records for test
 %%
