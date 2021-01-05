@@ -10,6 +10,7 @@
 %% Include files
 %% --------------------------------------------------------------------
 -define(Terminal,'terminal@c2').
+-define(Terminals,['terminal@c2','terminal@c1','terminal@c0']).
 %%---------------------------------------------------------------------
 %% Records for test
 %%
@@ -21,11 +22,12 @@
 %% ====================================================================
 %% External functions
 %% ====================================================================
-print(Text)->
-    rpc:call(?Terminal,terminal,print,[Text]).
 
-print(Text,List)->
-    rpc:call(?Terminal,terminal,print,[Text,List]).
+print(Text,T)->
+    rpc:call(?Terminal,terminal,print,[Text],T).
+
+print(Text,List,T)->
+    rpc:call(?Terminal,terminal,print,[Text,List],T).
 %% --------------------------------------------------------------------
 %% Function:start/0 
 %% Description: Initiate the eunit tests, set upp needed processes etc
@@ -39,3 +41,5 @@ node(Name)->
 %% Description: Initiate the eunit tests, set upp needed processes etc
 %% Returns: non
 %% --------------------------------------------------------------------
+log_terminals()->
+    ?Terminals.
