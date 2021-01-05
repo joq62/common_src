@@ -49,7 +49,7 @@ get_log_terminals()->
    % VmStrList.    
 					       
 
-log_terminals()->
+terminals()->
     ?Terminals.
 masters()->
     ?Masters.
