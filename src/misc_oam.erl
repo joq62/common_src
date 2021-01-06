@@ -11,7 +11,12 @@
 %% --------------------------------------------------------------------
 -define(TerminalVmId,"terminal").
 -define(Terminal,'terminal@c2').
--define(Terminals,['terminal@c2','terminal@c1','terminal@c0']).
+-define(LogTerminals,['log_terminal@c2',
+		      'log_terminal@c1',
+		      'log_terminal@c0']).
+-define(AlertTicketTerminals,['alert_ticket_terminal@c2',
+			      'alert_ticket_terminal@c1',
+			      'alert_ticket_terminal@c0']).
 -define(Masters,['master@c2','master@c1','master@c0']).
 %%---------------------------------------------------------------------
 %% Records for test
@@ -49,7 +54,10 @@ get_log_terminals()->
    % VmStrList.    
 					       
 
-terminals()->
-    ?Terminals.
+log_terminals()->
+    ?LogTerminals.
+alert_ticket_terminals()->
+    ?AlertTicketTerminals.
+
 masters()->
     ?Masters.
