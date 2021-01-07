@@ -17,7 +17,8 @@
 -define(AlertTicketTerminals,['alert_ticket_terminal@c2',
 			      'alert_ticket_terminal@c1',
 			      'alert_ticket_terminal@c0']).
--define(Masters,['master@c2','master@c1','master@c0']).
+-define(Masters,['master@c2','master@c1','master@c0',
+		 'boot_master@c2','boot_master@c1','boot_master@c0']).
 %%---------------------------------------------------------------------
 %% Records for test
 %%
