@@ -35,3 +35,7 @@ node(Name)->
 %% Description: Initiate the eunit tests, set upp needed processes etc
 %% Returns: non
 %% --------------------------------------------------------------------
+vmid_hostid(Node)->
+    NodeStr=atom_to_list(Node),
+    [VmId,HostId]=string:lexemes(NodeStr,"@"),
+    {VmId,HostId}.
