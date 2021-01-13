@@ -4,7 +4,7 @@
 %%% 
 %%% Created : 10 dec 2012
 %%% -------------------------------------------------------------------
--module(misc_oam).  
+-module(misc_log).  
    
 %% --------------------------------------------------------------------
 %% Include files
@@ -20,6 +20,7 @@
 -define(Masters,['master@c2','master@c1','master@c0',
 		 'boot_master@c2','boot_master@c1','boot_master@c0',
 		'test_dbase@c2']).
+-define(SyslogNodes,['syslog@c2','syslog@c1','syslog@c0']).
 %%---------------------------------------------------------------------
 %% Records for test
 %%
@@ -31,12 +32,13 @@
 %% ====================================================================
 %% External functions
 %% ====================================================================
+syslog_nodes()->
+    ?SyslogNodes.
 
-print(Text,T)->
-    rpc:call(?Terminal,terminal,print,[Text],T).
 
-print(Text,List,T)->
-    rpc:call(?Terminal,terminal,print,[Text,List],T).
+msg(Type,MsgList,Node,Module,Line)->
+    rpc:cast(node(),rpc,multicall,[?SyslogNodes,syslog,Type,
+				   [MsgList,Node,Module,Line],2000]).
 %% --------------------------------------------------------------------
 %% Function:start/0 
 %% Description: Initiate the eunit tests, set upp needed processes etc
