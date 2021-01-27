@@ -4,7 +4,7 @@
 %%% 
 %%% Created : 10 dec 2012
 %%% -------------------------------------------------------------------
--module(common_unit_tests).  
+-module(common_app_start_test).    
    
 %% --------------------------------------------------------------------
 %% Include files
@@ -30,8 +30,11 @@ start()->
     ?debugMsg("Start setup"),
     ?assertEqual(ok,setup()),
     ?debugMsg("stop setup"),
+
+ %   ?debugMsg("Start testXXX"),
+ %   ?assertEqual(ok,single_node()),
+ %   ?debugMsg("stop single_node"),
     
-   
       %% End application tests
     ?debugMsg("Start cleanup"),
     ?assertEqual(ok,cleanup()),
@@ -47,8 +50,20 @@ start()->
 %% Returns: non
 %% --------------------------------------------------------------------
 setup()->
-    ?assertMatch({ok,_},common:start()),
+
+    %% Test env vars 
+   
+%    io:format("Line = ~p~n",[{?MODULE,?LINE}]),
+    
+    % Start a Service application 
+      
+    ok=rpc:call(node(),application,start,[common],2*5000),
+    ?assertMatch({pong,_,common},
+		 rpc:call(node(),common,ping,[],2*5000)),		 
+
     ok.
+
+
 
 %% --------------------------------------------------------------------
 %% Function:start/0 
@@ -58,7 +73,7 @@ setup()->
 
 cleanup()->
   
-    init:stop(),
+  %  init:stop(),
     ok.
 %% --------------------------------------------------------------------
 %% Function:start/0 

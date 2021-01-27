@@ -11,9 +11,43 @@
 %% --------------------------------------------------------------------
 
 %-compile(export_all).
--export([create/7
+-export([create/5,
+	 create/7
 	]).
 
+
+
+%% ====================================================================
+%% External functions
+%% ====================================================================
+create(ServiceId,ServiceVsn,StartCmd,EnvVars,GitPath)->
+    ServiceDir=string:concat(ServiceId,misc_cmn:vsn_to_string(ServiceVsn)),
+    GitDest=ServiceDir,
+    CodePath=filename:join([ServiceDir,"ebin"]),
+    {M,F,A}=StartCmd,
+    file:del_dir_r(GitDest),
+    os:cmd("git clone "++GitPath++" "++GitDest),
+    true=code:add_patha(CodePath),
+    [application:set_env(App,Par,Val)||{App,Par,Val}<-EnvVars],
+    
+    Result=case rpc:call(node(),M,F,A) of
+	       ok->
+		   [ServiceModule]=A,
+		   case rpc:call(node(),ServiceModule,ping,[],3000) of
+		       {pong,_,ServiceModule}->
+			   {ok,ServiceId,ServiceVsn};
+		       Reason->
+			   {error,[Reason,?MODULE,?LINE]}
+		   end;
+	       Reason->
+		   {error,[Reason,?MODULE,?LINE]}
+	   end,
+    Result.
+
+%% --------------------------------------------------------------------
+%% 
+%%
+%% --------------------------------------------------------------------
 create(ServiceId,ServiceVsn,Vm,VmDir,StartCmd,EnvVars,GitPath)->
     ServiceDir=string:concat(ServiceId,misc_cmn:vsn_to_string(ServiceVsn)),
     GitDest=filename:join(VmDir,ServiceDir),
@@ -39,14 +73,3 @@ create(ServiceId,ServiceVsn,Vm,VmDir,StartCmd,EnvVars,GitPath)->
 		   {error,[Reason,?MODULE,?LINE]}
 	   end,
     Result.
-
-%% ====================================================================
-%% External functions
-%% ====================================================================
-
-
-%% --------------------------------------------------------------------
-%% 
-%%
-%% --------------------------------------------------------------------
-
